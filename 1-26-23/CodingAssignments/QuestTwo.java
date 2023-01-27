@@ -1,5 +1,4 @@
 import java.lang.StringBuilder;
-import java.util.*;
 
 public class QuestTwo {
     
@@ -26,7 +25,7 @@ public class QuestTwo {
 
     public static void stringMaker(String[] arr){
         
-        Stringbuilder strSum = new Stringbuilder();
+        StringBuilder strSum = new StringBuilder();
 
         for(int i = 0; i < arr.length; i++){
             String str = arr[i];
