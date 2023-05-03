@@ -1,11 +1,13 @@
 package projects;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 import projects.entity.Project;
 import projects.exception.DbException;
 import projects.service.ProjectService;
+import java.math.*;
 
 public class ProjectsApp {
 	private Scanner scanner = new Scanner(System.in);
@@ -57,11 +59,17 @@ public class ProjectsApp {
   private void createProject() {
 	  String projectName = getStringInput("Enter your project's Name: ");
 	  String notes = getStringInput("Is the everything on your order sir?:");
+	  BigDecimal estimatedHours = getDecimalInput("How long do you think it'll take?");
+	  BigDecimal actualHours = getDecimalInput("How long did it actually take?");
+	  Integer difficulty = getIntInput("How hard is it?(1-5)");
 	  
 	  Project project = new Project();
 	  
 	  project.setProjectName(projectName);
 	  project.setNotes(notes);
+	  project.setEstimatedHours(estimatedHours);
+	  project.setActualHours(actualHours);
+	  project.setDifficulty(difficulty);
 	  
 	  Project dbProject = projectService.addProject(project);
 	  System.out.println("All done. Thank you for visiting Wendy's");  
@@ -94,6 +102,19 @@ public class ProjectsApp {
 	  	return Integer.valueOf(input);
   	  } catch(NumberFormatException e) {
 		throw new DbException(input + "is not a valid number pal. Thanks though. Try again.");
+	  }	  
+  }
+
+  private BigDecimal getDecimalInput(String prompt){
+	String input = getStringInput(prompt);
+	  if(Objects.isNull(input)) {
+		  return null;
+	  }
+	  
+	  try {
+	  	return new BigDecimal(input).setScale(2);
+  	  } catch(NumberFormatException e) {
+		throw new DbException(input + "is not a valid decimal number pal. Thanks though. Try again.");
 	  }	  
   }
   
